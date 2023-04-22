@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <script src="ui.js" type="text/javascript"></script>
+    </head>
+    <body>
+        
+            <div class="screen-container">
+                <div class="repair-bar-container">
+                    <img src="img/repair-icon.png" alt="repair" class = "bar-icon">
+                    <!-- <object data="img/repair-icon.svg" type="image/svg+xml" class="bar-icon" ></object> -->
+                    <!-- <img src="img/fuel-icon.svg" alt="svg" class="bar-icon"> -->
+                    <div class="bar-container">
+                        <div class="bar-percent-text", id = "repair-bar-text">50%</div>
+                        <div class="bar-background">
+                            <div class="bar-fill" id = "repair-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="meter-container">
+                    <div class="speed-display">
+                        <div class="speed-digit" id = "speed-digit-1">0</div>
+                        <div class="speed-digit" id = "speed-digit-2">4</div>
+                        <div class="speed-digit" id = "speed-digit-3">5</div>
+                    </div>
+                    <div class="unit">Km/H</div>
+                </div>
+                <div class="fuel-bar-container">
+                    <img src="img/fuel-icon.png" alt="repair" class = "bar-icon">
+                    <!-- <object data="img/fuel-icon.svg" type="image/svg+xml" class="bar-icon"></object> -->
+                    <div class="bar-container">
+                        <div class="bar-percent-text" id = "fuel-bar-text">100%</div>
+                        <div class="bar-background">
+                            <div class="bar-fill" id = "fuel-bar-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ 
+    </body>
+</html>
