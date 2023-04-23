@@ -1,6 +1,3 @@
-
-
-
 $(document).ready(function() {
     const clamp = (num, min, max) => Math.min(Math.max(num, min), max);
     const SpeedDisplay = [
@@ -37,7 +34,7 @@ $(document).ready(function() {
         }
     })
 
-    fetch(`https://${GetParentResourceName()}/isDuiReady`, {
+    fetch(`https://${document.location.host}/isDuiReady`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -45,5 +42,5 @@ $(document).ready(function() {
         body: JSON.stringify({
             ok: true,
         })
-    }).then(resp => resp.json()).then(resp => console.log(resp))
+    }).then(resp => resp.json())
 })

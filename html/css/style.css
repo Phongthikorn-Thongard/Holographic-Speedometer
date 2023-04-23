@@ -1,11 +1,11 @@
 @font-face {
 	font-family: "opensans";
-	src: url(font/OpenSanst.ttf);
+	src: url(../font/OpenSanst.ttf);
 }
 
 @font-face {
 	font-family: "digital";
-	src: url(font/DS-DIGIT.TTF);
+	src: url(../font/DS-DIGIT.TTF);
 }
 
 /* .hologram-container {

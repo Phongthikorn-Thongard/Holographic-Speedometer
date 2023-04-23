@@ -7,11 +7,11 @@ version '1.0.0'
 
 client_script {
     'config.lua',
-    'client.lua'
+    'client/client.lua'
 }
 
 server_script {
-    'server.lua'
+    'server/server.lua'
 }
 
 data_file 'HANDLING_FILE' 'data/handling.meta'
@@ -21,14 +21,15 @@ data_file 'VEHICLE_VARIATION_FILE' 'data/carvariations.meta'
 ui_page 'nui/index.html'
 
 files {
+    'html/config.js',
+    'html/font/*',
+    'html/img/*',
+    'html/css/style.css',
+    'html/js/ui.js',
     'html/index.html',
-    'html/style.css',
     'data/handling.meta',
 	'data/vehicles.meta',
-	'data/carvariations.meta',
-    'html/ui.js',
-    'html/font/*',
-    'html/img/*'
+	'data/carvariations.meta'
 }
 
 shared_script '@es_extended/imports.lua'

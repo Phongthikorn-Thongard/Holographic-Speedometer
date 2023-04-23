@@ -9,11 +9,13 @@ local Keys = {
 }
 
 local speedMeter = nil
-local onVehicle = false
+local currentDirection = Config.DefaultDirection
 local HologramURI = string.format("nui://%s/html/index.html", GetCurrentResourceName())
+local onVehicle = false
 local duiObject = nil
+local IsDisplay = false
+local IsReady = false
 local textureReplacementMade = false
-local IsReady = true
 
 --Car Event
 Citizen.CreateThread(function()
@@ -28,17 +30,20 @@ Citizen.CreateThread(function()
     
     if DoesEntityExist(vehicle) and IsPedInVehicle(playerPed, vehicle, false) and not onVehicle then --PLayer Enter Vehicle
       onVehicle = true
-      TriggerEvent('SMH:showHologram', vehicle)
+      TriggerEvent('SMH:showHologram')
     elseif not DoesEntityExist(vehicle) and speedMeter ~= nil then --Player Exit Vehicle
       onVehicle = false
-      TriggerEvent('SMH:hideHologram', speedMeter)
+      TriggerEvent('SMH:hideHologram')
     end
   end
 end)
 
 
---
-
+--###############
+--#             #
+--#   Function  #
+--#             #
+--###############
 
 function InstallDui()
   duiObject = CreateDui(HologramURI, 512, 512)
@@ -60,6 +65,48 @@ function CreateHologram(HologramModel, coords)
 	return hologramObject
 end
 
+function GetOffsetFromConfig(table,width,length,height) 
+  local newOffset = {0.0,0.0,0.0}
+
+
+  for i, offset in pairs(table) do
+    if type(offset) == "number" then
+      newOffset[i] = offset + 0.0
+    else
+      offset = offset:gsub("@VehicleWidth", width)
+      offset = offset:gsub("@VehicleHeight", height)
+      offset = offset:gsub("@VehicleLength", length)
+      local offsetvalue = assert(load("return " ..offset))
+      newOffset[i] = offsetvalue() + 0.0
+    end
+  end
+  return newOffset
+end
+
+function GetNextIndexInTable(table,currentState)
+  local currentIndex = 0
+  for i, state in ipairs(table) do
+    if state == currentState then
+      currentIndex = i
+      break
+    end
+  end
+
+  local nextIndex = currentIndex + 1
+  if nextIndex > #table then
+    nextIndex = 1
+  end
+
+  return table[nextIndex]
+
+end
+
+
+--###############
+--#             #
+--#    Event    #
+--#             #
+--###############
 AddEventHandler('SMH:showHologram', function(vehicle)
 
   local hash = `hologram_box_model` --Hash String
@@ -79,14 +126,8 @@ AddEventHandler('SMH:showHologram', function(vehicle)
     end
     SetModelAsNoLongerNeeded(HologramModel)
 
-
-    local min, max = GetModelDimensions(GetEntityModel(playerVehicle))
-    local width = max.x - min.x
-
-    local x,y,z = (width), 0.5, 0.5 
-    local rx,ry,rz = 0.0, 0.0, -25.0 
-    
-    AttachEntityToEntity(speedMeter, playerVehicle, boneIndex, x, y, z, rx, ry, rz, false, false, false, false, 2, true) -- Attach the screen to the exhaust bone of the vehicle
+    TriggerEvent("SMH:updateHologramDirection", speedMeter, playerVehicle, currentDirection)
+    IsDisplay = true
 
     if duiObject and IsReady then
       repeat
@@ -101,29 +142,89 @@ AddEventHandler('SMH:showHologram', function(vehicle)
           Citizen.Wait(50)
         until (speedMeter == nil or not playerVehicle) 
       end
-  end
+    end
+    --TODO: Check if player's hologram is show before do anything
 end)
-
-AddEventHandler('SMH:hideHologram', function(speedmeter)
-  if DoesEntityExist(speedmeter) then
+  
+AddEventHandler('SMH:hideHologram', function()
+  if DoesEntityExist(speedMeter) then
     DeleteVehicle(speedMeter) -- Delete the screen object
     speedMeter = nil -- Reset the speedMeter variable to nil
+    IsDisplay = false
   end
+end)
+  
+AddEventHandler('SMH:updateHologramDirection', function(speedMeter, vehicle, direction)
+
+  if speedMeter == nil then
+    print("Speed Meter hasn't load yet.")
+  end
+
+  local min, max = GetModelDimensions(GetEntityModel(vehicle))
+  local width = max.x - min.x
+  local length = max.y - min.y
+  local height = max.z - min.z
+  print(width,length,height)
+  local PositionOffset = GetOffsetFromConfig(Config.Direction_Position_Offset[direction],width,length,height)
+  local RotationOffset = GetOffsetFromConfig(Config.Direction_Rotation_Offset[direction],width,length,height)
+  print(PositionOffset,RotationOffset)
+
+  local x,y,z = PositionOffset[1], PositionOffset[2], PositionOffset[3] 
+  local rx,ry,rz = RotationOffset[1], RotationOffset[2], RotationOffset[3]  
+
+  AttachEntityToEntity(speedMeter, vehicle, boneIndex, x, y, z, rx, ry, rz, false, false, false, false, 2, true) -- Attach the screen to the exhaust bone of the vehicle
 end)
 
 
---Key Mapping
 
+--###############
+--#             #
+--# Key Mapping #
+--#             #
+--###############
 RegisterCommand("changescreendirection", function() 
-  print("Change direction")
+  print(currentDirection.." Before")
+  local nextDirection = GetNextIndexInTable(Config.AllowDirection, currentDirection)
+  local playerVehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+  currentDirection = nextDirection
+
+  print(currentDirection.." After")
+  TriggerEvent("SMH:updateHologramDirection", speedMeter, playerVehicle, currentDirection)
 end)
 
 DisableControlAction(0, Keys[Config.ChangeMeterDirection], true)
 RegisterKeyMapping("changescreendirection", "Change Screen Direction to any direction of vehicle", "keyboard", Config.ChangeMeterDirection)
 
+RegisterCommand("toggledisplay", function(source) 
+  if IsDisplay then
+    TriggerEvent("SMH:hideHologram")
+    IsDisplay = false
+  else
+    TriggerEvent("SMH:showHologram")
+    IsDisplay = true
+  end
+end)
 
---Callback
+DisableControlAction(0, Keys[Config.CloseMeter], true)
+RegisterKeyMapping("toggledisplay", "Change Screen Direction to any direction of vehicle", "keyboard", Config.CloseMeter)
+
+
+
+--###############
+--#             #
+--#  Call Back  #
+--#             #
+--###############
 RegisterNuiCallback('isDuiReady', function()
   IsReady = true
-  cb({ok = true})
 end)
+
+AddEventHandler('onResourceStop', function(resourceName)
+  if (GetCurrentResourceName() ~= resourceName) then
+    return
+  end
+
+  TriggerEvent('SMH:hideHologram')
+  print('The resource ' .. resourceName .. ' was stopped.')
+end)
+
