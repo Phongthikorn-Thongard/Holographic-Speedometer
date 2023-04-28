@@ -21,17 +21,17 @@ $(document).ready(function() {
             }
         }
 
-        if (data.fuel != undefined) {
-            vehiclefuel = clamp(data.fueld,0,65)
-            $("#repair-bar-fill").css("width", vehiclefuel/65 * 100	 + "%");
-			$('#repair-bar-text').text(Math.round(vehiclefuel/65 * 100) + "%")
-        }
-
         if (data.health != undefined) {
             vehiclehealth = clamp(data.health,0,1000)
-            $("#repair-bar-fill").css("width", vehiclehealth/1000 * 100	 + "%");
-			$('#repair-bar-text').text(Math.round(vehiclehealth/1000 * 100) + "%")
+            $("#repair-bar_fill").css("width", vehiclehealth/1000 * 100	 + "%");
+            $('#repair-bar_text').text(Math.round(vehiclehealth/1000 * 100) + "%")
         }
+        if (data.fuel != undefined) {
+            vehiclefuel = clamp(data.fuel,0,65)
+            $("#fuel-bar_fill").css("width", vehiclefuel/65 * 100	 + "%");
+			$('#fuel-bar_text').text(Math.round(vehiclefuel/65 * 100) + "%")
+        }
+
     })
 
     fetch(`https://${document.location.host}/isDuiReady`, {

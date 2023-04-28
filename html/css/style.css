@@ -1,150 +1,232 @@
 @font-face {
-	font-family: "opensans";
-	src: url(../font/OpenSanst.ttf);
+  font-family: "opensans";
+  src: url(../font/OpenSanst.ttf);
 }
-
 @font-face {
-	font-family: "digital";
-	src: url(../font/DS-DIGIT.TTF);
+  font-family: "digital";
+  src: url(../font/DS-DIGIT.TTF);
 }
-
-/* .hologram-container {
-	width: 512px;
-	height: 512px;
-	/* background-color: antiquewhite; */
-	/* width: 100%;
-	height: 100%; */
-	/*position: absolute;
-} */
-
-.screen-container {
-	position: absolute;
-	width: 67.5%;
-	height: 30%;
-	left: 10%;
-	top: 40%;
-	transform: translate(-50,-50%);
-	/* background-color: rgb(167, 233, 233); */
-	display: flex;
-	flex-direction: column;
-	align-content: center;
-	justify-content: space-between;
-	
-}
-
- .repair-bar-container {
-	width: 100%;
-	height: 20%;
-	/* background-color: rgb(161, 195, 240); */
-	display: flex;
-	justify-content: space-evenly;
-	align-items: center;
- }
-
-
- .meter-container {
-	width: 100%;
-	height: 60%;
-	/* background-color: rgb(64, 219, 181); */
-	display: flex;
-	align-items: end;
-	justify-content: space-evenly;
- }
-
- .speed-display {
-	font-family: "digital";
-	display: flex;
-	font-size: 6rem;
-	margin-left: 3vh;
- }
- .unit {
-	font-family: "opensans";
-	display: flex;
-	font-size: 2rem;
-	margin-bottom: 1vh;
-	margin-left: -4vh;
- }
-
- .fuel-bar-container {
-	width: 100%;
-	height: 20%;
-	/* background-color: rgb(221, 219, 100); */
-	display: flex;
-	justify-content: space-evenly;
-	align-items: center;
- }
-
-
-
 body {
-	overflow: hidden;
-  }
-
-  .bar-icon {
-	width: 4.5vh;
-	height: 4.5vh;
-	
-  }
-  
-
-
-.bar-container {
-	width: 85%;
-	height: 130%;
-	/* background-color: rgb(209, 163, 45); */
-	display: flex;
-	flex-direction: column;
-	padding-bottom: 15px;
-
+  overflow: hidden;
 }
 
-.bar-background {
-	width: 100%;
-	height: 20%;
-	background-color: rgb(104, 104, 104);
-	border-radius: 1vh;
+.speedometer {
+  width: 70%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
-#repair-bar-fill {
-	width: 50%;
-	height: 100%;
-	background-color: rgb(235, 40, 40);
-	border-radius: 1vh;
-}
-#fuel-bar-fill {
-	width: 100%;
-	height: 100%;
-	background-color: rgb(235, 40, 40);
-	border-radius: 1vh;
+.repair-container, .fuel-container {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-
-.bar-percent-text {
-	font-family: "opensans";
-	font-size: 1.35rem;
-	color: #eb2828;
+.repair-bar {
+  width: 90%;
+  height: 100%;
+}
+.repair-bar__text {
+  font-family: "opensans";
+  color: rgb(255, 45, 45);
+  font-size: 1rem;
+  position: relative;
+}
+.repair-bar__bar {
+  width: 90%;
+  height: 20%;
+  background-color: rgb(153, 153, 153);
+  border-radius: 0.25vh;
+  margin-bottom: 10px;
+}
+.repair-bar__fill {
+  width: 50%;
+  height: 100%;
+  background-color: rgb(255, 45, 45);
+  border-radius: 0.25vh;
 }
 
+.fuel-bar {
+  width: 90%;
+  height: 100%;
+}
+.fuel-bar__text {
+  font-family: "opensans";
+  color: rgb(255, 45, 45);
+}
+.fuel-bar__bar {
+  width: 90%;
+  height: 20%;
+  background-color: rgb(153, 153, 153);
+  border-radius: 0.25vh;
+}
+.fuel-bar__fill {
+  width: 50%;
+  height: 100%;
+  background-color: rgb(255, 45, 45);
+  border-radius: 0.25vh;
+}
+
+.vehicle-status-container {
+  width: 80%;
+  height: 55%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.speed-display-wrapper {
+  width: 15vh;
+  height: 5vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .speed-digit {
-	color: rgb(235, 40, 40);
+  color: rgb(255, 45, 45);
+  font-size: 500%;
+  font-family: "digital";
 }
 
 .speed-digit:empty::after {
-	color: rgb(173, 173, 173);
-	content: "0";
+  color: rgb(153, 153, 153);
+  content: "0";
 }
 
-.unit{
-	color: rgb(173, 173, 173);
+.status-container {
+  width: 8vh;
+  height: 8vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
-/* .text {
-	font-size: 5rem;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	color: rgb(255, 255, 255);
-  } */
-  
+.status-icon-wrapper {
+  display: flex;
+}
+
+.unit {
+  font-size: 2rem;
+  font-family: "opensans";
+  color: rgb(153, 153, 153);
+}
+
+#repair-icon {
+  color: rgb(255, 45, 45);
+  font-size: 2rem;
+}
+
+#fuel-icon {
+  color: rgb(255, 45, 45);
+  font-size: 2rem;
+}
+
+#lamp-icon {
+  color: rgb(255, 45, 45);
+  font-size: 1.5rem;
+}
+
+#belt-icon {
+  color: rgb(255, 45, 45);
+  font-size: 1.5rem;
+}
+
+#lock-icon {
+  color: rgb(255, 45, 45);
+  font-size: 1.5rem;
+}
+
+.car-performance {
+  width: 25%;
+  height: 30%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.car-performance .border {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 4px solid rgb(255, 45, 45);
+  -webkit-clip-path: polygon(0 70%, 10% 70%, 10% 30%, 0 30%, 0 0, 30% 0, 30% 10%, 70% 10%, 70% 0, 100% 0, 100% 30%, 90% 30%, 90% 70%, 100% 70%, 100% 100%, 70% 100%, 70% 90%, 30% 90%, 30% 100%, 0 100%);
+          clip-path: polygon(0 70%, 10% 70%, 10% 30%, 0 30%, 0 0, 30% 0, 30% 10%, 70% 10%, 70% 0, 100% 0, 100% 30%, 90% 30%, 90% 70%, 100% 70%, 100% 100%, 70% 100%, 70% 90%, 30% 90%, 30% 100%, 0 100%);
+  box-sizing: border-box;
+}
+
+.tyre-wrapper {
+  width: 80%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.tyre-wrapper .left-wrapper {
+  width: 50%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: space-around;
+}
+.tyre-wrapper .right-wrapper {
+  width: 50%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-around;
+}
+.tyre-wrapper .tyre {
+  background-color: rgb(255, 45, 45);
+  width: 5px;
+  height: 30%;
+  border-radius: 2px;
+}
+.tyre-wrapper .icon-container {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.tyre-wrapper #car-icon {
+  font-size: 4rem;
+  color: rgb(255, 45, 45);
+}
+
+.gear-wrapper {
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.gear-wrapper .gear {
+  font-family: "opensans";
+  font-size: 2.5rem;
+  height: 50%;
+  color: rgb(255, 45, 45);
+}
+.gear-wrapper .gear-text {
+  font-family: "opensans";
+  font-size: 1.7rem;
+  color: rgb(153, 153, 153);
+  position: relative;
+}
+
+.hologram-container {
+  width: 512px;
+  height: 512px;
+  align-items: center;
+  gap: 0;
+  display: flex;
+  justify-content: space-evenly;
+}

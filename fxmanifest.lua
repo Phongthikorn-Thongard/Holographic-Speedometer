@@ -23,8 +23,9 @@ ui_page 'nui/index.html'
 files {
     'html/config.js',
     'html/font/*',
-    'html/img/*',
+    'html/font/icon-font/*',
     'html/css/style.css',
+    'html/css/font.css',
     'html/js/ui.js',
     'html/index.html',
     'data/handling.meta',

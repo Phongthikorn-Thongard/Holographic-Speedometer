@@ -16,6 +16,7 @@ Config.AllowDirection = {"right","left","back"} --ให้ผู้เล่น
 --z คือ บน ล่าง (+z = ไปข้างบน -z = ไปข้างล่าง)
 
 Config.Direction_Position_Offset = { --ตำแหน่งของ Hologram ของแต่ละทิศทาง
+    right = {"@VehicleWidth + 0.1", 0.5, 0.5},
     left = {"-@VehicleWidth + (-0.1)", 0.5, 0.5},
     front = {0.0, 0.0, 0.0},
     back = {0.0, "-@VehicleLength - (-2)", 0.5},

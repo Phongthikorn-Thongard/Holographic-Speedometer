@@ -5,41 +5,67 @@
         <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link rel="stylesheet" href="css/font.css" type="text/css">
+        
         <script src="js/ui.js" type="text/javascript"></script>
     </head>
     <body>
-        
-            <div class="screen-container">
-                <div class="repair-bar-container">
-                    <img src="img/repair-icon.png" alt="repair" class = "bar-icon">
-                    <!-- <object data="img/repair-icon.svg" type="image/svg+xml" class="bar-icon" ></object> -->
-                    <!-- <img src="img/fuel-icon.svg" alt="svg" class="bar-icon"> -->
-                    <div class="bar-container">
-                        <div class="bar-percent-text", id = "repair-bar-text">50%</div>
-                        <div class="bar-background">
-                            <div class="bar-fill" id = "repair-bar-fill"></div>
+        <div class="hologram-container">
+            <div class="speedometer">
+                <div class="repair-container">
+                    <div class="icon-repair-1" id = "repair-icon"></div>
+                    <div class="repair-bar">
+                        <div class="repair-bar__text" id = "repair-bar_text">100%</div>
+                        <div class="repair-bar__bar">
+                            <div class="repair-bar__fill" id = "repair-bar_fill"></div>
                         </div>
                     </div>
                 </div>
-                <div class="meter-container">
-                    <div class="speed-display">
+                <div class="vehicle-status-container">
+                    <div class="speed-display-wrapper">
                         <div class="speed-digit" id = "speed-digit-1">0</div>
-                        <div class="speed-digit" id = "speed-digit-2">4</div>
-                        <div class="speed-digit" id = "speed-digit-3">5</div>
+                        <div class="speed-digit" id = "speed-digit-2">0</div>
+                        <div class="speed-digit" id = "speed-digit-3">0</div>
                     </div>
-                    <div class="unit">Km/H</div>
+                    <div class="status-container">
+                        <div class="status-icon-wrapper">
+                            <div class="icon-lamp-1" id = "lamp-icon"></div>
+                            <div class="icon-belt-2" id = belt-icon></div>
+                            <div class="icon-lock-2" id = lock-icon></div>
+                        </div>
+                        <div class="unit">Km/H</div>
+                    </div>
                 </div>
-                <div class="fuel-bar-container">
-                    <img src="img/fuel-icon.png" alt="repair" class = "bar-icon">
-                    <!-- <object data="img/fuel-icon.svg" type="image/svg+xml" class="bar-icon"></object> -->
-                    <div class="bar-container">
-                        <div class="bar-percent-text" id = "fuel-bar-text">100%</div>
-                        <div class="bar-background">
-                            <div class="bar-fill" id = "fuel-bar-fill"></div>
+                <div class="fuel-container">
+                    <div class="icon-fuel-5" id = "fuel-icon"></div>
+                    <div class="fuel-bar">
+                        <div class="fuel-bar__text" id = "fuel-bar_text">100%</div>
+                        <div class="fuel-bar__bar">
+                            <div class="fuel-bar__fill" id = "fuel-bar_fill"></div>
                         </div>
                     </div>
                 </div>
             </div>
- 
+            <div class="car-performance">
+                <div class="border"></div>
+                <div class="tyre-wrapper">
+                    <div class="left-wrapper">
+                        <div class="tyre tyre-1" id = "#tyre-1"></div>
+                        <div class="tyre tyre-2" id = "#tyre-3"></div>
+                    </div>
+                    <div class="icon-container">
+                        <div class="icon-car-top" id = "car-icon"></div>
+                    </div>
+                    <div class="right-wrapper">
+                        <div class="tyre tyre-3" id = "#tyre-2"></div>
+                        <div class="tyre tyre-4" id = "#tyre-4"></div>
+                    </div>
+                </div>
+                <div class="gear-wrapper">
+                    <div class="gear">R</div>
+                    <div class="gear-text">Gear</div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

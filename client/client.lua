@@ -8,31 +8,35 @@ local Keys = {
   ['N6'] = 107, ['N+'] = 96, ['N-'] = 97, ['N7'] = 117, ['N8'] = 61, ['N9'] = 118
 }
 
-local speedMeter = nil
-local currentDirection = Config.DefaultDirection
-local HologramURI = string.format("nui://%s/html/index.html", GetCurrentResourceName())
-local onVehicle = false
-local duiObject = nil
-local IsDisplay = false
-local IsReady = false
-local textureReplacementMade = false
+local speed_meter = nil
+local current_direction = Config.DefaultDirection
+local hologram_url = string.format("nui://%s/html/index.html", GetCurrentResourceName())
+local is_on_vehicle = false
+local dui_object = nil
+local is_displayed = false
+local is_ready = false
+local texture_replacement_made = false
+local is_lamp_on = false
+local is_belt_on = false
+local is_locked = false
 
 --Car Event
 Citizen.CreateThread(function()
 
-  InstallDui()
+  install_dui()
 
   while true do
     Citizen.Wait(1000)
     
-    local playerPed = GetPlayerPed(-1)
-    local vehicle = GetVehiclePedIsIn(playerPed, false)
+    local player_ped = GetPlayerPed(-1)
+    local vehicle = GetVehiclePedIsIn(player_ped, false)
     
-    if DoesEntityExist(vehicle) and IsPedInVehicle(playerPed, vehicle, false) and not onVehicle then --PLayer Enter Vehicle
-      onVehicle = true
+    if DoesEntityExist(vehicle) and IsPedInVehicle(player_ped, vehicle, false) and not is_on_vehicle then --PLayer Enter Vehicle
+      
+      is_on_vehicle = true
       TriggerEvent('SMH:showHologram')
-    elseif not DoesEntityExist(vehicle) and speedMeter ~= nil then --Player Exit Vehicle
-      onVehicle = false
+    elseif not DoesEntityExist(vehicle) and speed_meter ~= nil then --Player Exit Vehicle
+      is_on_vehicle = false
       TriggerEvent('SMH:hideHologram')
     end
   end
@@ -45,29 +49,28 @@ end)
 --#             #
 --###############
 
-function InstallDui()
-  duiObject = CreateDui(HologramURI, 512, 512)
+function install_dui()
+  dui_object = CreateDui(hologram_url, 512, 512)
 
-  repeat Citizen.Wait(0) until IsReady
+  repeat Citizen.Wait(0) until is_ready
 
-  local txdHandle  = CreateRuntimeTxd("HologramDUI")
-	local duiHandle  = GetDuiHandle(duiObject)
-	local duiTexture = CreateRuntimeTextureFromDuiHandle(txdHandle, "DUI", duiHandle)
+  local txd_handle  = CreateRuntimeTxd("HologramDUI")
+	local dui_handle  = GetDuiHandle(dui_object)
+	local duiTexture = CreateRuntimeTextureFromDuiHandle(txd_handle, "DUI", dui_handle)
 end
 
 function CreateHologram(HologramModel, coords)
 
-	hologramObject = CreateVehicle(HologramModel, coords.x, coords.y, coords.z, 0.0, false, true)
-	SetVehicleIsConsideredByPlayer(hologramObject, false)
-	SetVehicleEngineOn(hologramObject, true, true)
-	SetEntityCollision(hologramObject, false, false)
+	local hologram_object = CreateVehicle(HologramModel, coords.x, coords.y, coords.z, 0.0, false, true)
+	SetVehicleIsConsideredByPlayer(hologram_object, false)
+	SetVehicleEngineOn(hologram_object, true, true)
+	SetEntityCollision(hologram_object, false, false)
 
-	return hologramObject
+	return hologram_object
 end
 
 function GetOffsetFromConfig(table,width,length,height) 
   local newOffset = {0.0,0.0,0.0}
-
 
   for i, offset in pairs(table) do
     if type(offset) == "number" then
@@ -84,20 +87,20 @@ function GetOffsetFromConfig(table,width,length,height)
 end
 
 function GetNextIndexInTable(table,currentState)
-  local currentIndex = 0
+  local current_index = 0
   for i, state in ipairs(table) do
     if state == currentState then
-      currentIndex = i
+      current_index = i
       break
     end
   end
 
-  local nextIndex = currentIndex + 1
-  if nextIndex > #table then
-    nextIndex = 1
+  local next_index = current_index + 1
+  if next_index > #table then
+    next_index = 1
   end
 
-  return table[nextIndex]
+  return table[next_index]
 
 end
 
@@ -113,50 +116,55 @@ AddEventHandler('SMH:showHologram', function(vehicle)
   RequestModel(hash)
 	repeat Citizen.Wait(0) until HasModelLoaded(hash)
   
-  local playerPed = GetPlayerPed(-1) 
-  local playerVehicle = GetVehiclePedIsIn(playerPed, false) -- Get the vehicle the player is in
-  local boneIndex = GetEntityBoneIndexByName(playerVehicle, "chassis")
-  local coords = GetOffsetFromEntityInWorldCoords(playerVehicle, 0.0, 1.0, 0.0) -- Get the coordinates for the position where the screen will be spawned relative to the exhaust bone
+  local player_ped = GetPlayerPed(-1) 
+  local player_vehicle = GetVehiclePedIsIn(player_ped, false) -- Get the vehicle the player is in
+  --local boneIndex = GetEntityBoneIndexByName(player_vehicle, "chassis")
+  local coords = GetOffsetFromEntityInWorldCoords(player_vehicle, 0.0, 1.0, 0.0) -- Get the coordinates for the position where the screen will be spawned relative to the exhaust bone
   
-  if DoesEntityExist(playerVehicle) then
-    speedMeter = CreateHologram(hash, coords)
-    if not textureReplacementMade then
+  if DoesEntityExist(player_vehicle) then
+    speed_meter = CreateHologram(hash, coords)
+    if not texture_replacement_made then
       AddReplaceTexture("hologram_box_model", "p_hologram_box", "HologramDUI", "DUI")
-      textureReplacementMade = true
+      texture_replacement_made = true
     end
     SetModelAsNoLongerNeeded(HologramModel)
 
-    TriggerEvent("SMH:updateHologramDirection", speedMeter, playerVehicle, currentDirection)
-    IsDisplay = true
+    TriggerEvent("SMH:updateHologramDirection", speed_meter, player_vehicle, current_direction)
+    is_displayed = true
 
-    if duiObject and IsReady then
+    if dui_object and is_ready then
       repeat
-          vehicleSpeed = GetEntitySpeed(playerVehicle)
-          fuel = GetVehicleFuelLevel(playerVehicle)
-          health = GetVehicleEngineHealth(playerVehicle)
-          SendDuiMessage(duiObject, json.encode({
+          vehicleSpeed = GetEntitySpeed(player_vehicle)
+          fuel = GetVehicleFuelLevel(player_vehicle)
+          health = GetVehicleEngineHealth(player_vehicle)
+          gear = GetVehicleCurrentGear(player_vehicle)
+
+          SendDuiMessage(dui_object, json.encode({
             rawSpeed = vehicleSpeed,
             fuel = fuel,
-            health = health
+            health = health,
+            gear = gear,
+            lamp = is_lamp_on,
+            belt = is_belt_on,
+            lock = is_locked
           }))
           Citizen.Wait(50)
-        until (speedMeter == nil or not playerVehicle) 
+        until (speed_meter == nil or not player_vehicle) 
       end
     end
-    --TODO: Check if player's hologram is show before do anything
 end)
   
 AddEventHandler('SMH:hideHologram', function()
-  if DoesEntityExist(speedMeter) then
-    DeleteVehicle(speedMeter) -- Delete the screen object
-    speedMeter = nil -- Reset the speedMeter variable to nil
-    IsDisplay = false
+  if DoesEntityExist(speed_meter) then
+    DeleteVehicle(speed_meter) -- Delete the screen object
+    speed_meter = nil -- Reset the speed_meter variable to nil
+    is_displayed = false
   end
 end)
   
-AddEventHandler('SMH:updateHologramDirection', function(speedMeter, vehicle, direction)
+AddEventHandler('SMH:updateHologramDirection', function(speed_meter, vehicle, direction)
 
-  if speedMeter == nil then
+  if speed_meter == nil then
     print("Speed Meter hasn't load yet.")
   end
 
@@ -164,16 +172,15 @@ AddEventHandler('SMH:updateHologramDirection', function(speedMeter, vehicle, dir
   local width = max.x - min.x
   local length = max.y - min.y
   local height = max.z - min.z
-  print(width,length,height)
-  local PositionOffset = GetOffsetFromConfig(Config.Direction_Position_Offset[direction],width,length,height)
-  local RotationOffset = GetOffsetFromConfig(Config.Direction_Rotation_Offset[direction],width,length,height)
-  print(PositionOffset,RotationOffset)
+  local position_offset = GetOffsetFromConfig(Config.Direction_Position_Offset[direction],width,length,height)
+  local rotation_offset = GetOffsetFromConfig(Config.Direction_Rotation_Offset[direction],width,length,height)
 
-  local x,y,z = PositionOffset[1], PositionOffset[2], PositionOffset[3] 
-  local rx,ry,rz = RotationOffset[1], RotationOffset[2], RotationOffset[3]  
+  local x,y,z = position_offset[1], position_offset[2], position_offset[3] 
+  local rx,ry,rz = rotation_offset[1], rotation_offset[2], rotation_offset[3]  
 
-  AttachEntityToEntity(speedMeter, vehicle, boneIndex, x, y, z, rx, ry, rz, false, false, false, false, 2, true) -- Attach the screen to the exhaust bone of the vehicle
+  AttachEntityToEntity(speed_meter, vehicle, boneIndex, x, y, z, rx, ry, rz, false, false, false, false, 2, true)
 end)
+
 
 
 
@@ -183,25 +190,25 @@ end)
 --#             #
 --###############
 RegisterCommand("changescreendirection", function() 
-  print(currentDirection.." Before")
-  local nextDirection = GetNextIndexInTable(Config.AllowDirection, currentDirection)
+  print(current_direction.." Before")
+  local nextDirection = GetNextIndexInTable(Config.AllowDirection, current_direction)
   local playerVehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
-  currentDirection = nextDirection
+  current_direction = nextDirection
 
-  print(currentDirection.." After")
-  TriggerEvent("SMH:updateHologramDirection", speedMeter, playerVehicle, currentDirection)
+  print(current_direction.." After")
+  TriggerEvent("SMH:updateHologramDirection", speed_meter, playerVehicle, current_direction)
 end)
 
 DisableControlAction(0, Keys[Config.ChangeMeterDirection], true)
 RegisterKeyMapping("changescreendirection", "Change Screen Direction to any direction of vehicle", "keyboard", Config.ChangeMeterDirection)
 
 RegisterCommand("toggledisplay", function(source) 
-  if IsDisplay then
+  if is_displayed then
     TriggerEvent("SMH:hideHologram")
-    IsDisplay = false
+    is_displayed = false
   else
     TriggerEvent("SMH:showHologram")
-    IsDisplay = true
+    is_displayed = true
   end
 end)
 
@@ -216,7 +223,7 @@ RegisterKeyMapping("toggledisplay", "Change Screen Direction to any direction of
 --#             #
 --###############
 RegisterNuiCallback('isDuiReady', function()
-  IsReady = true
+  is_ready = true
 end)
 
 AddEventHandler('onResourceStop', function(resourceName)

@@ -1,0 +1,14 @@
+@use "./abstracts/fonts";
+@use "./layouts/speedometer";
+@use "./layouts/car-performance";
+
+.hologram-container {
+	
+	width: 512px;
+	height: 512px;
+	align-items: center;
+	gap: 0;
+	display: flex;
+	justify-content: space-evenly;
+
+}
