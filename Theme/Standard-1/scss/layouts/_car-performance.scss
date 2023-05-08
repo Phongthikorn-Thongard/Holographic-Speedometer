@@ -1,0 +1,88 @@
+@use "../abstracts/colors" as color;
+@use "../abstracts/fonts" as font;
+
+.car-performance {
+    width: 25%;
+    height: 30%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+
+    .border {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 4px solid color.$main-color;
+        clip-path: polygon(0 70%, 10% 70%, 10% 30%, 0 30%, 0 0, 30% 0, 30% 10%, 70% 10%, 70% 0, 100% 0, 100% 30%, 90% 30%, 90% 70%, 100% 70%, 100% 100%, 70% 100%, 70% 90%, 30% 90%, 30% 100%, 0 100%);
+        box-sizing: border-box;
+    }
+}
+
+.tyre-wrapper {
+    width: 80%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .left-wrapper {
+        width: 50%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        justify-content: space-around;
+    }
+    .right-wrapper {
+        width: 50%;
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: space-around;
+    }
+
+    .tyre {
+        background-color: color.$main-color;
+        width: 5px;
+        height: 30%;
+        border-radius: 2px;
+    }
+    .icon-container {
+        width: 40%;
+        display: flex;
+        justify-content: center;
+        position: relative;
+    }
+    #car-icon {
+        font-size: 4rem;
+        color: color.$main-color;
+    }
+}
+
+.gear-wrapper {
+    width: 50%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+    .gear {
+        font-family: font.$normal-font;
+        font-size: 2.5rem;
+        height: 50%;
+        color: color.$main-color;
+    }
+
+    .gear-text {
+        font-family: font.$normal-font;
+        font-size: 1.7rem;
+        color: color.$grey-color;
+        position: relative;
+    }
+}
+
+
+

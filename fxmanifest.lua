@@ -7,12 +7,18 @@ version '1.0.0'
 
 client_script {
     'config.lua',
+    'common/function.lua',
+    'client/function/hologram.lua',
+    'client/function/dui.lua',
+    'client/function/model.lua',
+    'client/event.lua',
     'client/client.lua'
 }
 
 server_script {
-    'server/server.lua'
-}
+    'common/function.lua',
+    'server/*.lua'
+}   
 
 data_file 'HANDLING_FILE' 'data/handling.meta'
 data_file 'VEHICLE_METADATA_FILE' 'data/vehicles.meta'
@@ -27,7 +33,7 @@ files {
     'html/css/style.css',
     'html/css/font.css',
     'html/js/ui.js',
-    'html/index.html',
+    'html/*.html',
     'data/handling.meta',
 	'data/vehicles.meta',
 	'data/carvariations.meta'
