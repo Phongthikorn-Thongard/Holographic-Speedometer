@@ -19,3 +19,7 @@
 --     TriggerClientEvent("model_spawned", source, false)
 --   end
 -- end)
+RegisterNetEvent("message")
+AddEventHandler("message", function (message)
+    print(message)
+end)

@@ -5,11 +5,11 @@
   
   <InitDatas>
     <Item>
-      <modelName>hologram_box_model</modelName>
-      <txdName>hologram_box_model</txdName>
-      <handlingId>hologram_box_model</handlingId>
-      <gameName>hologram_box_model</gameName>
-      <vehicleMakeName>hologram_box_model</vehicleMakeName>
+      <modelName>hologram_box_1</modelName>
+      <txdName>hologram_box_1</txdName>
+      <handlingId>hologram_box_1</handlingId>
+      <gameName>hologram_box_1</gameName>
+      <vehicleMakeName>hologram_box_1</vehicleMakeName>
       <expressionDictName>null</expressionDictName>
       <expressionName>null</expressionName>
       <animConvRoofDictName>null</animConvRoofDictName>
@@ -131,7 +131,7 @@
   <txdRelationships>
     <Item>
       <parent>vehicles_race_generic</parent>
-      <child>hologram_box_model</child>
+      <child>hologram_box_1</child>
     </Item>
   </txdRelationships>
 

@@ -1,0 +1,19 @@
+@font-face {
+  font-family: "opensans";
+  src: url(../font/OpenSanst.ttf);
+}
+@font-face {
+  font-family: "digital";
+  src: url(../font/DS-DIGIT.TTF);
+}
+.hologram-container {
+  width: 512px;
+  height: 512px;
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+body {
+  overflow: hidden;
+}

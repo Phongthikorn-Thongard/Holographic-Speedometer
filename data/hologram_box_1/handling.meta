@@ -4,7 +4,7 @@
 
   <HandlingData>
     <Item type="CHandlingData">
-      <handlingName>hologram_box_model</handlingName>
+      <handlingName>hologram_box_1</handlingName>
       <fMass value="2725.000000" />
       <fInitialDragCoeff value="3.500000" />
       <fPercentSubmerged value="85.000000" />

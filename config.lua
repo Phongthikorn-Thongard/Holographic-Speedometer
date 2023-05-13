@@ -15,7 +15,7 @@ Config.AllowDirection = { "right", "left", "back" } --ให้ผู้เล�
 Config.DefaultDirection = {
     --ทิศทางของ hologram เมื่อขึ้นรถ
     speedometer = "right",
-    car_performance = "left"
+    car_performance = "right"
 }
 
 

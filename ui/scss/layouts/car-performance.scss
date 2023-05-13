@@ -1,6 +1,18 @@
 @use "../abstracts/colors" as color;
 @use "../abstracts/fonts" as font;
 
+
+#hologram-container {
+	
+	width: 512px;
+	height: 512px;
+	align-items: center;
+	gap: 0;
+	display: flex;
+	justify-content: start;
+
+}
+
 .car-performance {
     width: 25%;
     height: 30%;

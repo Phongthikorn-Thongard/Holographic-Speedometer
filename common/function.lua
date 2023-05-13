@@ -39,3 +39,12 @@ function GetNextIndexInTable(table, currentState)
 
     return table[next_index]
 end
+
+function SMH.findIndex(tbl, val)
+    for i = 1, #tbl do
+        if tbl[i] == val then
+            return i -- Return the index of the value if found
+        end
+    end
+    return nil -- Return nil if the value is not found
+end

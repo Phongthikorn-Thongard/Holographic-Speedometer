@@ -5,6 +5,17 @@ body {
 	overflow: hidden;
 }
 
+#hologram-container {
+	
+	width: 512px;
+	height: 512px;
+	align-items: center;
+	gap: 0;
+	display: flex;
+	justify-content: start;
+	
+}
+
 .speedometer {
 	width: 70%;
 	height: 30%;

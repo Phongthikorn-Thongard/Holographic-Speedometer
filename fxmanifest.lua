@@ -20,23 +20,33 @@ server_script {
     'server/*.lua'
 }   
 
-data_file 'HANDLING_FILE' 'data/handling.meta'
-data_file 'VEHICLE_METADATA_FILE' 'data/vehicles.meta'
-data_file 'VEHICLE_VARIATION_FILE' 'data/carvariations.meta'
-
-ui_page 'nui/index.html'
+ui_page 'ui/speedometer_1.html'
 
 files {
-    'html/config.js',
-    'html/font/*',
-    'html/font/icon-font/*',
-    'html/css/style.css',
-    'html/css/font.css',
-    'html/js/ui.js',
-    'html/*.html',
-    'data/handling.meta',
-	'data/vehicles.meta',
-	'data/carvariations.meta'
+    'ui/font/*',
+    'ui/font/icon-font/*',
+    'ui/css/*.css',
+    
+    'ui/js/ui.js',
+    'ui/js/hologram.js',
+
+    'ui/html/speedometer.html',
+    'ui/html/car-performance.html',
+    'ui/speedometer_1.html',
+    'ui/speedometer_2.html',
+
+    'data/hologram_box_1/*.meta',
+    'data/hologram_box_2/*.meta'
 }
 
 shared_script '@es_extended/imports.lua'
+
+data_file 'HANDLING_FILE' 'data/hologram_box_1/handling.meta'
+data_file 'HANDLING_FILE' 'data/hologram_box_2/handling.meta'
+
+data_file 'VEHICLE_METADATA_FILE' 'data/hologram_box_1/vehicles.meta'
+data_file 'VEHICLE_METADATA_FILE' 'data/hologram_box_2/vehicles.meta'
+
+data_file 'VEHICLE_VARIATION_FILE' 'data/hologram_box_1/carvariations.meta'
+data_file 'VEHICLE_VARIATION_FILE' 'data/hologram_box_2/carvariations.meta'
+
